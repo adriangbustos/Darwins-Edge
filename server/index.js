@@ -116,6 +116,7 @@ app.use(cors({
     'http://localhost:4173',
     'http://localhost:8080',
     'http://localhost:8081',
+    'https://darwinsedge.netlify.app',
     process.env.FRONTEND_URL,
   ].filter(Boolean),
   methods: ['GET', 'POST'],
@@ -225,7 +226,7 @@ app.post('/api/calculate-price', (req, res) => {
 
 // Create Checkout Session
 app.post('/api/create-checkout-session', async (req, res) => {
-  const { roomTier, checkIn, checkOut, guests, userId, userEmail, userName } = req.body;
+  const { roomTier, checkIn, checkOut, guests, userId, userEmail, userName, returnUrl } = req.body;
 
   // Validate required fields
   if (!roomTier || !checkIn || !checkOut || !guests || !userId || !userEmail) {
@@ -253,6 +254,38 @@ app.post('/api/create-checkout-session', async (req, res) => {
   // Use dynamic pricing based on season
   const totalPrice = calculateTotalPrice(checkIn, checkOut, room.pricePerNight);
   const effectivePricePerNight = Math.round(totalPrice / nights); // Average for display
+
+  // LOG: Debug request details
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.log('🔍 CREATE CHECKOUT SESSION - DEBUG INFO');
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.log('📦 Request body returnUrl:', returnUrl);
+  console.log('🌍 Request headers origin:', req.headers.origin);
+  console.log('📍 Request headers referer:', req.headers.referer);
+  console.log('🔧 FRONTEND_URL env var:', process.env.FRONTEND_URL);
+  
+  // Determine frontend URL - priority order:
+  // 1. returnUrl from request body (sent by frontend)
+  // 2. FRONTEND_URL environment variable
+  // 3. Default to Netlify production URL
+  let frontendUrl;
+  
+  if (returnUrl && returnUrl.trim()) {
+    // Use the URL provided by the frontend
+    frontendUrl = returnUrl.trim();
+    console.log('✅ SELECTED: returnUrl from request body');
+  } else if (process.env.FRONTEND_URL) {
+    // Use environment variable
+    frontendUrl = process.env.FRONTEND_URL;
+    console.log('✅ SELECTED: FRONTEND_URL from environment');
+  } else {
+    // Default to production
+    frontendUrl = 'https://darwinsedge.netlify.app';
+    console.log('✅ SELECTED: Default production URL');
+  }
+  
+  console.log('🎯 FINAL frontendUrl:', frontendUrl);
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
   try {
     // Create pending reservation in Firestore
@@ -293,8 +326,8 @@ app.post('/api/create-checkout-session', async (req, res) => {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.FRONTEND_URL || 'http://localhost:8080'}/dashboard?payment=success&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.FRONTEND_URL || 'http://localhost:8080'}/booking?canceled=true`,
+      success_url: `${frontendUrl}/dashboard?payment=success&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${frontendUrl}/booking?canceled=true`,
       customer_email: userEmail,
       metadata: {
         reservationId: reservationRef.id,

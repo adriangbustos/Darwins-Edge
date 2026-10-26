@@ -59,6 +59,9 @@ export default function Booking() {
     setError(null);
 
     try {
+      // Get current origin to send to backend for proper redirect
+      const currentOrigin = window.location.origin;
+      
       const response = await fetch(`${API_URL}/api/create-checkout-session`, {
         method: 'POST',
         headers: {
@@ -72,6 +75,7 @@ export default function Booking() {
           userId: user.uid,
           userEmail: user.email,
           userName: user.displayName || 'Guest',
+          returnUrl: currentOrigin, // Send frontend origin for proper redirect
         }),
       });
 

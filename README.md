@@ -1,172 +1,78 @@
-# Darwin's Edge - Luxury Hotel Booking System
+# Darwin's Edge
 
-A premium hotel booking application for Darwin's Edge, a regenerative sanctuary in the Galápagos Islands.
+[![License: MIT](https://img.shields.io/badge/License-MIT-44CC11?style=for-the-badge)](LICENSE)
 
-## Tech Stack
+A luxury eco-lodge hospitality and sustainable tourism web platform set in the Galápagos Islands. Built with React 18, Vite, TypeScript, Tailwind CSS, Framer Motion, and Firebase Firestore.
 
-- **Frontend**: React 18 + TypeScript + Vite
-- **Styling**: Tailwind CSS + shadcn/ui
-- **Animation**: Framer Motion
-- **State Management**: React Context
-- **Authentication**: Firebase Auth
-- **Database**: Firebase Firestore
-- **Payments**: Stripe Checkout
-- **Backend**: Node.js + Express
+![Darwin's Edge Preview](public/preview.png)
 
-## Room Tiers & Pricing
+<div align="center">
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white" alt="Framer Motion" />
+  <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase" />
+  <img src="https://img.shields.io/badge/License-MIT-44CC11?style=for-the-badge" alt="MIT License" />
+</div>
 
-| Tier | Price/Night | Key Inclusions |
-|------|-------------|----------------|
-| The Lodge Suites | $1,150 | Breakfast, Airport Transfer, Infinity Solarium |
-| Scalesia Bungalows | $1,850 | + Premium Alcohol, Daily Excursion, Private Dining |
-| Aqua Villas | $3,200 | + Private Butler, Unlimited Excursions, $200 Park Fee |
+---
 
-## Quick Start
+## Features
 
-### Prerequisites
+### 🌋 Immersive Galápagos Experience
+- Cinematic volcanic and archipelago visual design powered by Framer Motion entrance animations.
+- Sustainable hospitality storytelling centered on conservation and low-impact tourism.
 
-- Node.js 18+
-- npm
-- Firebase Project (with Auth + Firestore enabled)
-- Stripe Account (test mode)
+### 🛎️ Real-Time Reservation & Availability Engine
+- Interactive booking bar with date-range pickers and dynamic guest selection.
+- Room tier showcase: Oceanfront Villas, Volcanic Suites, and Canopy Treehouses.
 
-### 1. Clone & Install
+### 📊 Administrative Management Dashboard
+- Integrated booking calendar and reservation tracking.
+- Protected authentication routes backed by Firebase.
 
-```bash
-# Install frontend dependencies
-npm install
-
-# Install backend dependencies
-cd server
-npm install
-cd ..
-```
-
-### 2. Configure Environment Variables
-
-**Frontend** - Copy `.env.example` to `.env`:
-```bash
-cp .env.example .env
-```
-
-Fill in your Firebase configuration:
-```env
-VITE_FIREBASE_API_KEY=your_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-VITE_FIREBASE_PROJECT_ID=your_project_id
-VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-VITE_FIREBASE_APP_ID=your_app_id
-VITE_API_URL=http://localhost:3001
-```
-
-**Backend** - Copy `server/.env.example` to `server/.env`:
-```bash
-cp server/.env.example server/.env
-```
-
-Fill in your credentials:
-```env
-PORT=3001
-FRONTEND_URL=http://localhost:5173
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-FIREBASE_PROJECT_ID=your_project_id
-FIREBASE_CLIENT_EMAIL=firebase-adminsdk-...@your_project.iam.gserviceaccount.com
-FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
-```
-
-### 3. Start Development Servers
-
-**Terminal 1 - Frontend:**
-```bash
-npm run dev
-```
-
-**Terminal 2 - Backend:**
-```bash
-cd server
-npm start
-```
-
-### 4. Set Up Stripe Webhook (Development)
-
-For local development, use Stripe CLI:
-```bash
-stripe listen --forward-to localhost:3001/api/webhook
-```
-
-Copy the webhook signing secret to your `server/.env` file.
-
-## Booking Flow
-
-1. **Home** → Select dates & guests in booking bar
-2. **Booking** → Browse room tiers and select
-3. **Login** → Create account or sign in (required)
-4. **Stripe** → Complete payment
-5. **Dashboard** → View reservation with confetti celebration 🎉
-
-## API Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/create-checkout-session` | Create Stripe checkout session |
-| GET | `/api/verify-session/:sessionId` | Verify payment status |
-| POST | `/api/webhook` | Stripe webhook handler |
-| GET | `/api/reservations/:userId` | Get user's reservations |
-| GET | `/api/health` | Health check |
+---
 
 ## Project Structure
 
 ```
 DARWIN'S EDGE/
 ├── src/
-│   ├── components/
-│   │   ├── BookingBar.tsx      # Date/guest selector
-│   │   ├── RoomCard.tsx        # Luxury room cards
-│   │   ├── Confetti.tsx        # Celebration animation
-│   │   └── ProtectedRoute.tsx  # Auth guard
-│   ├── contexts/
-│   │   ├── AuthContext.tsx     # Firebase auth state
-│   │   └── BookingContext.tsx  # Booking state
-│   ├── pages/
-│   │   ├── Index.tsx           # Homepage
-│   │   ├── Booking.tsx         # Room selection
-│   │   ├── Login.tsx           # Authentication
-│   │   └── Dashboard.tsx       # User reservations
-│   └── types/
-│       └── index.ts            # TypeScript interfaces
-├── server/
-│   ├── index.js                # Express server
-│   └── .env.example            # Backend env template
-└── .env.example                # Frontend env template
+│   ├── components/      # UI components (Hero, BookingBar, AccommodationsSlider, Header)
+│   ├── pages/           # Application views (Index, Booking, Dashboard, Login)
+│   ├── lib/             # Utility helpers and Firestore configuration
+│   └── assets/          # High-resolution Galápagos imagery and visual assets
+├── public/              # Static assets and favicon
+│   └── preview.png      # Application hero screenshot preview
+├── server/              # Backend payment / notification microservice
+└── index.html           # Application root entrypoint
 ```
 
-## Deployment
+---
 
-### Frontend (Netlify)
+## Getting Started
 
-1. Connect your repository to Netlify
-2. Set build command: `npm run build`
-3. Set publish directory: `dist`
-4. Add environment variables in Netlify dashboard
+### Prerequisites
+- Node.js 18+
+- npm or bun
 
-### Backend
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/adriangbustos/Darwins-Edge.git
+cd Darwins-Edge
 
-Deploy to your preferred Node.js host (Render, Railway, etc.)
-Update `VITE_API_URL` in frontend to point to deployed backend.
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+Open `http://localhost:5173` in your web browser.
+
+---
 
 ## License
 
-Private - Darwin's Edge
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
