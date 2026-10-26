@@ -1,6 +1,6 @@
 # Darwin's Edge
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-44CC11?style=for-the-badge)](LICENSE)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Access_Platform-blue?style=for-the-badge&logo=netlify)](https://darwinsedge.netlify.app/)
 
 A luxury eco-lodge hospitality and sustainable tourism web platform set in the Galápagos Islands. Built with React 18, Vite, TypeScript, Tailwind CSS, Framer Motion, and Firebase Firestore.
 
